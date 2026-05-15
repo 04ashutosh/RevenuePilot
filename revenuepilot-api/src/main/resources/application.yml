@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: revenuepilot-api
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/revenuepilot
+    username: admin
+    password: password
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      # 'update' automatically creates/updates database tables based on our Java classes.
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8080
