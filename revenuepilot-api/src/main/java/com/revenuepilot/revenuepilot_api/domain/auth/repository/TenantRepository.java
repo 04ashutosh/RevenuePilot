@@ -9,5 +9,5 @@ import java.util.UUID;
 @Repository
 public interface TenantRepository extends JpaRepository<Tenant, UUID> {
     // By simply extending JpaRepository, Spring automatically generates all the SQL for:
-    // save(), findById(), findAll(), deleteById(), etc. 
+    // save(), findById(), findAll(), deleteById(), etc.
 }
