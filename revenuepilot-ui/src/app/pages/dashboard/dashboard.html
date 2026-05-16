@@ -1,0 +1,49 @@
+<div class="dashboard">
+  <!-- KPI Cards -->
+  <div class="kpi-grid">
+    @for (kpi of kpis; track kpi.label) {
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-label">{{ kpi.label }}</span>
+          <span class="kpi-icon" [ngClass]="kpi.colorClass">{{ kpi.icon }}</span>
+        </div>
+        <div class="kpi-value">{{ kpi.value }}</div>
+        <div class="kpi-change" [ngClass]="kpi.positive ? 'positive' : 'negative'">
+          {{ kpi.change }}
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Recent Customers -->
+  <div class="section-card">
+    <div class="section-header">
+      <h2 class="section-title">Recent Customers</h2>
+      <button class="btn-primary">+ Add Customer</button>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Joined</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (customer of recentCustomers; track customer.email) {
+          <tr>
+            <td>{{ customer.name }}</td>
+            <td>{{ customer.email }}</td>
+            <td>
+              <span class="badge" [ngClass]="customer.status === 'ACTIVE' ? 'badge-active' : 'badge-trial'">
+                {{ customer.status }}
+              </span>
+            </td>
+            <td>{{ customer.joined }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

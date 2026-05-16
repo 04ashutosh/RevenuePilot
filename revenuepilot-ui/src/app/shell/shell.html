@@ -1,0 +1,63 @@
+<div class="app-layout">
+    <!-- Sidebar -->
+     <aside class="sidebar">
+        <div class="sidebar-logo">
+            <span class="logo-icon">⚡</span>
+            <span class="logo-text">RevenuePilot</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a routerLink="/customers" routerLinkActive="active" class="nav-item">
+                <span class="nav-icon">👥</span>
+                <span>Customers</span>
+            </a>
+            <a routerLink="/subscriptions" routerLinkActive="active" class="nav-item">
+                <span class="nav-icon">💳</span>
+                <span>Subscriptions</span>
+            </a>
+            <a routerLink="/invoices" routerLinkActive="active" class="nav-item">
+                <span class="nav-icon">🧾</span>
+                <span>Invoices</span>
+            </a>
+            <a routerLink="/analytics" routerLinkActive="active" class="nav-item">
+                <span class="nav-icon">📈</span>
+                <span>Analytics</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a routerLink="/settings" class="nav-item">
+                <span class="nav-icon">⚙️</span>
+                <span>Settings</span>
+            </a>
+        </div>
+     </aside>
+
+     <!-- Main Content -->
+      <div class="main-content">
+        <!-- Top Navbar -->
+         <header class="topbar">
+            <div class="topbar-left">
+                <h1 class="page-title">Dashboard</h1>
+            </div>
+            <div class="topbar-right">
+                <div class="user-badge">
+                    <div class="user-avatar">A</div>
+                    <div class="user-info">
+                        <span class="user-name">Acme Corp</span>
+                        <span class="user-role">Admin</span>
+                    </div>
+                </div>
+            </div>
+         </header>
+
+         <!-- Routed Page Content -->
+          <main class="page-content">
+            <router-outlet />
+          </main>
+      </div>
+</div>
