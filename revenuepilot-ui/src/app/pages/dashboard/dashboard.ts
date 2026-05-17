@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from "@angular/common";
+import { CustomerService } from "../../core/services/customer.service";
+import { Customer } from "../../core/models/customer.model";
 
-interface KpiCard {
+interface KpiCard{
   label: string;
   value: string;
   change: string;
@@ -10,32 +12,60 @@ interface KpiCard {
   colorClass: string;
 }
 
-interface Customer {
-  name: string;
-  email: string;
-  status: string;
-  joined: string;
-}
-
 @Component({
   selector: 'app-dashboard',
   imports: [CommonModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
-export class DashboardComponent {
 
-  // These values will be replaced by real API calls in Phase 5
+export class DashboardComponent implements OnInit {
+  //KPIs
+
   kpis: KpiCard[] = [
-    { label: 'Monthly Recurring Revenue', value: '$48,295', change: '↑ 12.5% vs last month', positive: true, icon: '💰', colorClass: 'kpi-green' },
-    { label: 'Active Customers', value: '1,284', change: '↑ 8.1% vs last month', positive: true, icon: '👥', colorClass: 'kpi-blue' },
-    { label: 'Churn Rate', value: '2.4%', change: '↑ 0.3% vs last month', positive: false, icon: '📉', colorClass: 'kpi-red' },
-    { label: 'Annual Run Rate', value: '$579,540', change: '↑ 18.2% vs last year', positive: true, icon: '📈', colorClass: 'kpi-purple' },
+    { label: 'Monthly Recurring Revenue', value: '$0', change: 'Loading...', positive: true, icon: '💰', colorClass: 'kpi-green' },
+    { label: 'Active Customers', value: '0', change: 'Loading...', positive: true, icon: '👥', colorClass: 'kpi-blue' },
+    { label: 'Churn Rate', value: '0%', change: 'Loading...', positive: false, icon: '📉', colorClass: 'kpi-red' },
+    { label: 'Annual Run Rate', value: '$0', change: 'Loading...', positive: true, icon: '📈', colorClass: 'kpi-purple' },
   ];
 
-  recentCustomers: Customer[] = [
-    { name: 'Stripe Inc.', email: 'billing@stripe.com', status: 'ACTIVE', joined: 'May 12, 2026' },
-    { name: 'Vercel LLC', email: 'finance@vercel.com', status: 'ACTIVE', joined: 'May 10, 2026' },
-    { name: 'Linear Corp', email: 'ops@linear.app', status: 'TRIAL', joined: 'May 15, 2026' },
-  ];
+  recentCustomers: Customer[] = [];
+  isLoading = true;
+  errorMessage = '';
+
+  // IMPORTANT: Replace this with a real tenant ID from the database after creating one via Postman
+  private readonly DEMO_TENANT_ID = '059eae2f-0b0e-41a6-b56a-733d96943641';
+
+  constructor(
+    private customerService: CustomerService,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  ngOnInit(): void {
+    if (this.DEMO_TENANT_ID){
+      this.loadCustomers();
+    }else{
+      this.isLoading = false;
+      this.errorMessage = 'No tenant ID configured yet. Create a tenant via the API first!';
+    }
+  }
+
+  private loadCustomers(): void {
+    console.log('🔵 Making HTTP request to backend...');
+    this.customerService.getCustomersByTenant(this.DEMO_TENANT_ID).subscribe({
+      next: (customers) => {
+        console.log('✅ Got customers:', customers);
+        this.recentCustomers = customers;
+        this.kpis[1].value = customers.length.toString();
+        this.kpis[1].change = `${customers.length} total customers`;
+        this.isLoading = false;
+        this.cdr.detectChanges(); // Force Angular to re-render
+      },
+      error: (err) => {
+        console.error('❌ HTTP Error:', err);
+        this.errorMessage = 'Could not connect to backend. Is Spring Boot running?';
+        this.isLoading = false;
+      }
+    });
+  }
 }

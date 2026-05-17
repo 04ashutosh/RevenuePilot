@@ -1,11 +1,13 @@
 package com.revenuepilot.revenuepilot_api.domain.auth.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "tenants")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Tenant {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

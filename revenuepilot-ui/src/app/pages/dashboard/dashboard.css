@@ -143,3 +143,17 @@
 .badge-active { background: #d1fae5; color: #065f46; }
 .badge-trial  { background: #fef3c7; color: #92400e; }
 .badge-canceled{ background: #fee2e2; color: #991b1b; }
+
+.state-message {
+  padding: 24px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.state-message.error{
+  color: var(--danger);
+  background: #fee2e2;
+  border-radius: 8px;
+  margin: 8px;
+}

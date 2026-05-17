@@ -1,4 +1,5 @@
 <div class="dashboard">
+
   <!-- KPI Cards -->
   <div class="kpi-grid">
     @for (kpi of kpis; track kpi.label) {
@@ -21,29 +22,47 @@
       <h2 class="section-title">Recent Customers</h2>
       <button class="btn-primary">+ Add Customer</button>
     </div>
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Status</th>
-          <th>Joined</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (customer of recentCustomers; track customer.email) {
+
+    <!-- Loading State -->
+    @if (isLoading) {
+      <div class="state-message">Loading customers...</div>
+    }
+
+    <!-- Error State -->
+    @if (errorMessage) {
+      <div class="state-message error">⚠️ {{ errorMessage }}</div>
+    }
+
+    <!-- Data Table -->
+    @if (!isLoading && !errorMessage) {
+      <table class="data-table">
+        <thead>
           <tr>
-            <td>{{ customer.name }}</td>
-            <td>{{ customer.email }}</td>
-            <td>
-              <span class="badge" [ngClass]="customer.status === 'ACTIVE' ? 'badge-active' : 'badge-trial'">
-                {{ customer.status }}
-              </span>
-            </td>
-            <td>{{ customer.joined }}</td>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Joined</th>
           </tr>
-        }
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          @for (customer of recentCustomers; track customer.id) {
+            <tr>
+              <td>{{ customer.name }}</td>
+              <td>{{ customer.email }}</td>
+              <td>
+                <span class="badge" [ngClass]="customer.status === 'ACTIVE' ? 'badge-active' : 'badge-trial'">
+                  {{ customer.status }}
+                </span>
+              </td>
+              <td>{{ customer.createdAt | date:'MMM d, y' }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="4" class="state-message">No customers found for this tenant yet.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
   </div>
 </div>
