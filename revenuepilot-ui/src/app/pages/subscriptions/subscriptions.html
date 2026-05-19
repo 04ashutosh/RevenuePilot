@@ -1,0 +1,74 @@
+<div class="subscriptions-page">
+    <!-- Plans Overview -->
+     <div class="plans-grid">
+        @for (plan of plans; track plan.id){
+            <div class="plan-card" [ngClass]="getPlanBadgeClass(plan.name)">
+                <div class="plan-name">{{ plan.name }}</div>
+                <div class="plan-price">
+                    @if (plan.monthlyPrice === 0){
+                        <span class="price-amount">Free</span>
+                    }@else {
+                        <span class="price-amount">{{ plan.monthlyPrice }}</span>
+                        <span class="price-period">/month</span>
+                    }
+                </div>
+                <div class="plan-desc">{{ plan.description }}</div>
+            </div>
+        }
+     </div>
+
+     <!-- Active Subscriptions -->
+      <div class="section-card">
+        <div class="section-header">
+            <h2 class="section-title">Active Subscriptions</h2>
+            <span class="count-badge">{{ subscriptions.length }} total</span>
+        </div>
+
+        @if (isLoading){
+            <div class="state-message">Loading subscriptions...</div>
+        }
+
+        @if (errorMessage){
+            <div class="state-message error">⚠️ {{ errorMessage }}</div>
+        }
+
+        @if (!isLoading && !errorMessage) {
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Email</th>
+                        <th>Plan</th>
+                        <th>Status</th>
+                        <th>Start Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (sub of subscriptions; track sub.id){
+                        <tr>
+                            <td>{{ sub.customer.name }}</td>
+                            <td>{{ sub.customer.email }}</td>
+                            <td>
+                                <span class="plan-badge" [ngClass]="getPlanBadgeClass(sub.plan.name)">
+                                    {{ sub.plan.name }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge" [ngClass]="sub.status === 'ACTIVE' ? 'badge-active' : 'badge-canceled'">
+                                    {{ sub.status }}
+                                </span>
+                            </td>
+                            <td>{{ sub.startDate | date: 'MMM d, y' }}</td>
+                        </tr>
+                    }@empty {
+                        <tr>
+                            <td colspan="5" class="state-message"> 
+                                No subscriptions yet. Create one via the API!
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+      </div>
+</div>

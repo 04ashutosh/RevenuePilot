@@ -1,0 +1,123 @@
+.subscription-page{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Plan Cards */
+.plans-grid{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 20px;
+}
+
+.plan-card{
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.plan-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+.plan-card.badge-enterprise {border-color: #6366f1;}
+.plan-card.badge-pro {border-color: #10b981;}
+.plan-card.badge-free {border-color: var(--border);}
+
+.plan-name {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+}
+
+.plan-price{
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    margin-bottom: 10px;
+}
+
+.price-amount{
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.price-period{
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.plan-desc{
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+/* Plan Badges */
+.plan-badge{
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.plan-badge.badge-enterprise { background: #ede9fe; color: #5b21b6; }
+.plan-badge.badge-pro        { background: #d1fae5; color: #065f46; }
+.plan-badge.badge-free       { background: #f1f5f9; color: #475569; }
+
+/* Section Card */
+.section-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+}
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.count-badge {
+  background: var(--primary-light);
+  color: var(--primary);
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table th {
+  text-align: left; padding: 10px 14px;
+  font-size: 12px; font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase; letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--border);
+}
+.data-table td { padding: 14px; font-size: 14px; border-bottom: 1px solid var(--border); }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tbody tr:hover { background: #f8fafc; }
+.badge {
+  display: inline-block; padding: 3px 10px;
+  border-radius: 100px; font-size: 12px; font-weight: 600;
+}
+.badge-active   { background: #d1fae5; color: #065f46; }
+.badge-canceled { background: #fee2e2; color: #991b1b; }
+.state-message { padding: 24px; text-align: center; color: var(--text-secondary); font-size: 14px; }
+.state-message.error { color: var(--danger); background: #fee2e2; border-radius: 8px; margin: 8px; }

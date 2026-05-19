@@ -1,6 +1,7 @@
 import { Routes } from "@angular/router";
 import { ShellComponent } from "./shell/shell";
 import { DashboardComponent } from "./pages/dashboard/dashboard";
+import { SubscriptionsComponent } from "./pages/subscriptions/subscriptions";
 
 export const routes: Routes = [
     {
@@ -9,6 +10,7 @@ export const routes: Routes = [
         children: [
             {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
             {path: 'dashboard', component: DashboardComponent},
+            {path: 'subscriptions', component: SubscriptionsComponent},
         ]
     }
 ];
