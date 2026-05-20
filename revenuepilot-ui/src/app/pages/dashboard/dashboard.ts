@@ -1,70 +1,96 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from "@angular/common";
-import { CustomerService } from "../../core/services/customer.service";
-import { Customer } from "../../core/models/customer.model";
-
-interface KpiCard{
-  label: string;
-  value: string;
-  change: string;
-  positive: boolean;
-  icon: string;
-  colorClass: string;
-}
-
+import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { CustomerService } from '../../core/services/customer.service';
+import { TenantContextService } from '../../core/services/tenant-context.service';
+import { Customer } from '../../core/models/customer.model';
+import { AddCustomerModalComponent } from './add-customer-modal/add-customer-modal';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule],
+  standalone: true,
+  imports: [CommonModule, MatDialogModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
-
-export class DashboardComponent implements OnInit {
-  //KPIs
-
-  kpis: KpiCard[] = [
-    { label: 'Monthly Recurring Revenue', value: '$0', change: 'Loading...', positive: true, icon: '💰', colorClass: 'kpi-green' },
-    { label: 'Active Customers', value: '0', change: 'Loading...', positive: true, icon: '👥', colorClass: 'kpi-blue' },
-    { label: 'Churn Rate', value: '0%', change: 'Loading...', positive: false, icon: '📉', colorClass: 'kpi-red' },
-    { label: 'Annual Run Rate', value: '$0', change: 'Loading...', positive: true, icon: '📈', colorClass: 'kpi-purple' },
+export class DashboardComponent implements OnInit, OnDestroy {
+  kpis = [
+    { label: 'Monthly Recurring Revenue', value: '$0', change: 'Calculating...', positive: true, icon: '💰', colorClass: 'kpi-green' },
+    { label: 'Active Customers', value: '0', change: 'Calculating...', positive: true, icon: '👥', colorClass: 'kpi-blue' },
+    { label: 'Churn Rate', value: '0%', change: 'Calculating...', positive: false, icon: '📉', colorClass: 'kpi-red' },
+    { label: 'Annual Run Rate', value: '$0', change: 'Calculating...', positive: true, icon: '📈', colorClass: 'kpi-purple' },
   ];
 
   recentCustomers: Customer[] = [];
   isLoading = true;
   errorMessage = '';
 
-  // IMPORTANT: Replace this with a real tenant ID from the database after creating one via Postman
-  private readonly DEMO_TENANT_ID = '059eae2f-0b0e-41a6-b56a-733d96943641';
+  private currentTenantId: string | null=null;
+  private tenantSub!: Subscription;
 
   constructor(
     private customerService: CustomerService,
-    private cdr: ChangeDetectorRef
+    private tenantContextService: TenantContextService,
+    private cdr: ChangeDetectorRef,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
-    if (this.DEMO_TENANT_ID){
-      this.loadCustomers();
-    }else{
-      this.isLoading = false;
-      this.errorMessage = 'No tenant ID configured yet. Create a tenant via the API first!';
-    }
+    // Listen for tenant changes! Whenever the dropdown in the header changes, this runs.
+    this.tenantSub = this.tenantContextService.currentTenant$.subscribe(tenantId=>{
+      this.currentTenantId = tenantId;
+      if (tenantId){
+        this.loadCustomers();
+      }else{
+        this.isLoading = false;
+        this.errorMessage = 'Please select a tenant from the top right.';
+        this.cdr.detectChanges();
+      }
+    });
+  }
+  
+  ngOnDestroy(): void {
+    if (this.tenantSub) this.tenantSub.unsubscribe();
   }
 
-  private loadCustomers(): void {
-    console.log('🔵 Making HTTP request to backend...');
-    this.customerService.getCustomersByTenant(this.DEMO_TENANT_ID).subscribe({
-      next: (customers) => {
-        console.log('✅ Got customers:', customers);
+  private loadCustomers(): void{
+    this.isLoading = true;
+    this.customerService.getCustomersByTenant(this.currentTenantId!).subscribe({
+      next: (customers)=>{
         this.recentCustomers = customers;
+
+        //Dynamic KPI calculation based on data
         this.kpis[1].value = customers.length.toString();
         this.kpis[1].change = `${customers.length} total customers`;
+
+        // Mocking MRR calculation for now based on customer count (ex: $49 avg per customer)
+        const mockMrr = customers.length*49;
+        this.kpis[0].value = `$${mockMrr}`;
+        this.kpis[3].value = `$${mockMrr*12}` //Annual Run Rate
+
         this.isLoading = false;
-        this.cdr.detectChanges(); // Force Angular to re-render
+        this.cdr.detectChanges();
       },
-      error: (err) => {
-        console.error('❌ HTTP Error:', err);
-        this.errorMessage = 'Could not connect to backend. Is Spring Boot running?';
+      error: (err)=>{
+        this.errorMessage = 'Could not load data.';
         this.isLoading = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  openAddCustomerModal(): void{
+    if (!this.currentTenantId) return;
+
+    const dialogRef = this.dialog.open(AddCustomerModalComponent,{
+      width: '400px',
+      data: {tenantId: this.currentTenantId}
+    });
+
+    dialogRef.afterClosed().subscribe(newCustomer => {
+      if (newCustomer){
+        // If a customer was created successfully, reload the table!
+        this.loadCustomers();
       }
     });
   }

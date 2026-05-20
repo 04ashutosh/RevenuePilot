@@ -44,14 +44,19 @@
             <div class="topbar-left">
                 <h1 class="page-title">Dashboard</h1>
             </div>
-            <div class="topbar-right">
-                <div class="user-badge">
-                    <div class="user-avatar">A</div>
-                    <div class="user-info">
-                        <span class="user-name">Acme Corp</span>
-                        <span class="user-role">Admin</span>
-                    </div>
-                </div>
+            
+            <div class="header-right">
+                <select class="tenant-select"
+                        [(ngModel)]="selectedTenantId"
+                        (change)="onTenantChange()">
+                @for (tenant of tenants; track tenant.id){
+                    <option [value]="tenant.id">
+                        {{ tenant.companyName }}
+                    </option>
+                }
+                </select>
+
+                <div class="user-profile">A</div>
             </div>
          </header>
 
