@@ -1,0 +1,80 @@
+<div class="invoices-page">
+
+  <!-- Billing KPI summaries -->
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-header">
+        <span class="kpi-label">Total Invoiced</span>
+        <span class="kpi-icon kpi-purple">🧾</span>
+      </div>
+      <div class="kpi-value">${{ totalInvoiced | number:'1.2-2' }}</div>
+    </div>
+    
+    <div class="kpi-card">
+      <div class="kpi-header">
+        <span class="kpi-label">Total Collected</span>
+        <span class="kpi-icon kpi-green">💵</span>
+      </div>
+      <div class="kpi-value">${{ totalPaid | number:'1.2-2' }}</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-header">
+        <span class="kpi-label">Outstanding Balance</span>
+        <span class="kpi-icon kpi-red">⏰</span>
+      </div>
+      <div class="kpi-value">${{ totalOutstanding | number:'1.2-2' }}</div>
+    </div>
+  </div>
+
+  <!-- Invoices Table -->
+  <div class="section-card">
+    <div class="section-header">
+      <h2 class="section-title">Invoice Ledger</h2>
+      <span class="count-badge">{{ invoices.length }} invoices</span>
+    </div>
+
+    @if (isLoading) {
+      <div class="state-message">Loading billing ledger...</div>
+    }
+
+    @if (errorMessage) {
+      <div class="state-message error">⚠️ {{ errorMessage }}</div>
+    }
+
+    @if (!isLoading && !errorMessage) {
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Invoice Number</th>
+            <th>Customer</th>
+            <th>Email</th>
+            <th>Amount</th>
+            <th>Due Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (inv of invoices; track inv.id) {
+            <tr>
+              <td class="inv-num">{{ shortenId(inv.id) }}</td>
+              <td>{{ inv.customer.name }}</td>
+              <td>{{ inv.customer.email }}</td>
+              <td class="inv-amount">${{ inv.amount | number:'1.2-2' }}</td>
+              <td>{{ inv.dueDate | date:'MMM d, y' }}</td>
+              <td>
+                <span class="badge" [ngClass]="getStatusBadgeClass(inv.status)">
+                  {{ inv.status }}
+                </span>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="state-message">No invoices found for this tenant.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</div>

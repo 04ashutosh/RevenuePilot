@@ -2,6 +2,7 @@ import { Routes } from "@angular/router";
 import { ShellComponent } from "./shell/shell";
 import { DashboardComponent } from "./pages/dashboard/dashboard";
 import { SubscriptionsComponent } from "./pages/subscriptions/subscriptions";
+import { InvoicesComponent } from "./pages/invoices/invoices";
 
 export const routes: Routes = [
     {
@@ -11,6 +12,7 @@ export const routes: Routes = [
             {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
             {path: 'dashboard', component: DashboardComponent},
             {path: 'subscriptions', component: SubscriptionsComponent},
+            {path: 'invoices', component: InvoicesComponent}
         ]
     }
 ];

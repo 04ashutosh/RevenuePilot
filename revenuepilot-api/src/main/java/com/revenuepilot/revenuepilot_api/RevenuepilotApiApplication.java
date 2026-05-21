@@ -1,5 +1,6 @@
 package com.revenuepilot.revenuepilot_api;
 
+import com.revenuepilot.revenuepilot_api.domain.invoice.service.InvoiceService;
 import com.revenuepilot.revenuepilot_api.domain.subscription.service.PlanService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,10 +14,11 @@ public class RevenuepilotApiApplication {
 		SpringApplication.run(RevenuepilotApiApplication.class, args);
 	}
 
-	// This runs once after Spring Boot starts up
 	@Bean
-	CommandLineRunner seedData(PlanService planService){
-		return args -> planService.seedDefaultPlans();
+	CommandLineRunner seedData(PlanService planService, InvoiceService invoiceService){
+		return args -> {
+			planService.seedDefaultPlans();
+			invoiceService.seedDefaultInvoices();
+		};
 	}
-
 }
