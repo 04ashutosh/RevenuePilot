@@ -8,7 +8,8 @@ import { Subscription } from "../models/subscription.model";
 })
 
 export class SubscriptionService {
-    private readonly apiUrl = 'http://localhost:8080/api/subscriptions';
+    private readonly apiHost = window.location.hostname === 'localhost' ? 'http://localhost:8080' : '';
+    private readonly apiUrl = `${this.apiHost}/api/subscriptions`;
 
     constructor(private http: HttpClient){}
 

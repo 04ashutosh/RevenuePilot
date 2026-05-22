@@ -8,7 +8,8 @@ import { Tenant } from "../models/tenant.model";
 })
 
 export class TenantService {
-    private readonly apiUrl = 'http://localhost:8080/api/tenants';
+    private readonly apiHost = window.location.hostname === 'localhost' ? 'http://localhost:8080' : '';
+    private readonly apiUrl = `${this.apiHost}/api/tenants`;
 
     constructor(private http: HttpClient) {}
 

@@ -8,7 +8,8 @@ import { Invoice } from "../models/invoice.model";
 })
 
 export class InvoiceService{
-    private readonly apiUrl = 'http://localhost:8080/api/invoices';
+    private readonly apiHost = window.location.hostname === 'localhost' ? 'http://localhost:8080' : '';
+    private readonly apiUrl = `${this.apiHost}/api/invoices`;
 
     constructor(private http: HttpClient) {}
 

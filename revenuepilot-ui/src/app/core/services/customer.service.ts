@@ -9,7 +9,9 @@ import { Customer } from "../models/customer.model";
 
 export class CustomerService{
     // All API calls go through this base URL - easy to change for production later
-    private readonly apiUrl = 'http://localhost:8080/api/customers';
+    private readonly apiHost = window.location.hostname === 'localhost'?'http://localhost:8080' : '';
+
+    private readonly apiUrl = `${this.apiHost}/api/customers`;
 
     constructor(private http: HttpClient) {}
 

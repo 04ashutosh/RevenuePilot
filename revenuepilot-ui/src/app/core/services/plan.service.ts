@@ -8,7 +8,8 @@ import { Plan } from "../models/plan.model";
 })
 
 export class PlanService{
-    private readonly apiUrl = 'http://localhost:8080/api/plans';
+    private readonly apiHost = window.location.hostname === 'localhost' ? 'http://localhost:8080' : '';
+    private readonly apiUrl = `${this.apiHost}/api/plans`;
 
     constructor(private http : HttpClient){}
 

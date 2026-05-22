@@ -1,22 +1,47 @@
 spring:
   application:
     name: revenuepilot-api
+  profiles:
+    active: dev # Default profile if not specified
 
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
   datasource:
     url: jdbc:postgresql://localhost:5432/revenuepilot
     username: admin
     password: password
     driver-class-name: org.postgresql.Driver
-
   jpa:
     hibernate:
-      # 'update' automatically creates/updates database tables based on our Java classes.
       ddl-auto: update
     show-sql: true
     properties:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  server:
+    port: 8080
 
-server:
-  port: 8080
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    # These environment variables will be injected when we run the app on EC2
+    url: jdbc:postgresql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME}
+    username: ${RDS_USERNAME}
+    password: ${RDS_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  server:
+    port: 8080
