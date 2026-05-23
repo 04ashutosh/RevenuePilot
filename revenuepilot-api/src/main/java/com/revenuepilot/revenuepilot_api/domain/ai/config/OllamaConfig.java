@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class OllamaConfig {
-    @Value("${ollama.url:https://localhost:11434}")
+    @Value("${ollama.url:http://localhost:11434}")
     private String url;
 
     @Value("${ollama.model:llama3}")

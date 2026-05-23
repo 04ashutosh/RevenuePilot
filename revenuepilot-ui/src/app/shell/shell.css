@@ -162,3 +162,197 @@
     cursor: pointer;
     margin-right: 16px;
 }
+
+/* AI Button in Header */
+.header-ai-btn {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 12px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 4px 6px rgba(99, 102, 241, 0.15);
+}
+.header-ai-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px rgba(99, 102, 241, 0.25);
+}
+
+/* Sliding AI Drawer */
+.ai-drawer {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 380px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  border-left: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: -10px 0 30px rgba(15, 23, 42, 0.08);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ai-drawer.open {
+  right: 0;
+}
+.drawer-header {
+  padding: 20px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.drawer-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.drawer-title h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+}
+.pulse-indicator {
+  width: 8px;
+  height: 8px;
+  background-color: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulse 1.6s infinite;
+}
+@keyframes pulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+.drawer-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #94a3b8;
+  cursor: pointer;
+}
+.drawer-close:hover {
+  color: #475569;
+}
+.drawer-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.chat-bubble-wrapper {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.user-msg-wrapper {
+  justify-content: flex-end;
+}
+.avatar {
+  width: 32px;
+  height: 32px;
+  background: #ede9fe;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+.chat-bubble {
+  max-width: 80%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #0f172a;
+  background: #f1f5f9;
+  white-space: pre-wrap;
+}
+.chat-bubble.user {
+  background: #6366f1;
+  color: white;
+  border-bottom-right-radius: 2px;
+}
+.loading-bubble {
+  display: flex;
+  gap: 4px;
+  padding: 12px 20px;
+}
+.loading-bubble .dot {
+  width: 6px;
+  height: 6px;
+  background-color: #94a3b8;
+  border-radius: 50%;
+  animation: typing 1.4s infinite both;
+}
+.loading-bubble .dot:nth-child(2) { animation-delay: 0.2s; }
+.loading-bubble .dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typing {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  45% { transform: scale(1.2); opacity: 1; }
+}
+
+/* Prompt Chips */
+.drawer-chips {
+  padding: 12px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-top: 1px solid #f1f5f9;
+}
+.drawer-chips button {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 100px;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.drawer-chips button:hover {
+  background: #ede9fe;
+  border-color: #6366f1;
+  color: #6366f1;
+}
+
+/* Input Area */
+.drawer-input-area {
+  padding: 20px;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  gap: 10px;
+}
+.drawer-input-area input {
+  flex: 1;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13.5px;
+  outline: none;
+}
+.drawer-input-area input:focus {
+  border-color: #6366f1;
+}
+.drawer-input-area button {
+  background: #6366f1;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.drawer-input-area button:hover {
+  background: #4f46e5;
+}

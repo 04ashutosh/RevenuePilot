@@ -46,6 +46,11 @@
             </div>
             
             <div class="header-right">
+
+                <button class="header-ai-btn" (click)="toggleChat()">
+                    ⚡ Ask AI
+                </button>
+
                 <select class="tenant-select"
                         [(ngModel)]="selectedTenantId"
                         (change)="onTenantChange()">
@@ -65,4 +70,45 @@
             <router-outlet />
           </main>
       </div>
+      <!-- CFO AI Assistant Sliding Panel -->
+<div class="ai-drawer" [class.open]="isChatOpen">
+    <div class="drawer-header">
+        <div class="drawer-title">
+            <span class="pulse-indicator"></span>
+            <h3>CFO AI Assistant</h3>
+        </div>
+        <button class="drawer-close" (click)="toggleChat()">×</button>
+    </div>
+    <!-- Chat Messages -->
+    <div class="drawer-messages">
+        <div *ngFor="let msg of chatMessages" class="chat-bubble-wrapper" [class.user-msg-wrapper]="msg.sender === 'user'">
+            <div class="avatar" *ngIf="msg.sender === 'ai'">🤖</div>
+            <div class="chat-bubble" [class.user]="msg.sender === 'user'">
+                <p>{{ msg.text }}</p>
+            </div>
+        </div>
+        <div *ngIf="isAiTyping" class="chat-bubble-wrapper">
+            <div class="avatar">🤖</div>
+            <div class="chat-bubble loading-bubble">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+    </div>
+    <!-- Quick action prompts -->
+    <div class="drawer-chips" *ngIf="chatMessages.length <= 1 && !isAiTyping">
+        <button (click)="selectPromptChip('How is my business doing? Give me a summary.')">📊 General Health</button>
+        <button (click)="selectPromptChip('Who has overdue invoices?')">⏰ Late Payers</button>
+        <button (click)="selectPromptChip('How is my MRR split between subscription plans?')">💰 Subscriptions</button>
+    </div>
+    <!-- Chat input area -->
+    <div class="drawer-input-area">
+        <input type="text" 
+               placeholder="Ask anything about SaaS performance..." 
+               [(ngModel)]="chatInput" 
+               (keyup.enter)="sendChatMessage()" />
+        <button (click)="sendChatMessage()">Send</button>
+    </div>
+</div>
 </div>
