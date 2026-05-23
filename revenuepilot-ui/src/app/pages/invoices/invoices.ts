@@ -4,11 +4,13 @@ import { InvoiceService } from "../../core/services/invoice.service";
 import { TenantContextService } from "../../core/services/tenant-context.service";
 import { Invoice } from "../../core/models/invoice.model";
 import { Subscription } from "rxjs";
+import { MatDialog, MatDialogModule } from "@angular/material/dialog";
+import { EmailDraftModalComponent } from "./email-draft-modal/email-draft-modal";
 
 @Component({
   selector: 'app-invoices',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,MatDialogModule],
   templateUrl: './invoices.html',
   styleUrl: './invoices.css'
 })
@@ -28,7 +30,8 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   constructor(
     private invoiceService: InvoiceService,
     private tenantContextService: TenantContextService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -79,5 +82,12 @@ export class InvoicesComponent implements OnInit, OnDestroy {
 
   shortenId(id: string): string{
     return id ? `#INV-${id.substring(0,8).toUpperCase()}`: '';
+  }
+
+  openAiEmailDialog(invoiceId: string): void {
+    this.dialog.open(EmailDraftModalComponent,{
+      width: '550px',
+      data: {invoiceId}
+    });
   }
 }

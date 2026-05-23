@@ -139,3 +139,26 @@
   border-radius: 8px;
   margin: 8px 0;
 }
+
+.btn-ai {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  box-shadow: 0 2px 4px rgba(99, 102, 241, 0.15);
+}
+.btn-ai:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3);
+}
+.btn-ai:active {
+  transform: translateY(0);
+}

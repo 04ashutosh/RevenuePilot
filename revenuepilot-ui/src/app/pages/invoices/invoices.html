@@ -52,6 +52,7 @@
             <th>Amount</th>
             <th>Due Date</th>
             <th>Status</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -66,6 +67,14 @@
                 <span class="badge" [ngClass]="getStatusBadgeClass(inv.status)">
                   {{ inv.status }}
                 </span>
+              </td>
+              <td>
+                <button *ngIf="inv.status !== 'PAID'"
+                        class="btn-ai"
+                        (click)="openAiEmailDialog(inv.id)"
+                        >
+                  ⚡ AI Email
+                </button>
               </td>
             </tr>
           } @empty {
