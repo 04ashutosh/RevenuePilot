@@ -1,0 +1,253 @@
+.analytics-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.section-header {
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.analytics-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.analytics-card.span-2 {
+  grid-column: span 2;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-header h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.trend-tag {
+  background: var(--primary-light);
+  color: var(--primary);
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.count-badge {
+  background: #f1f5f9;
+  color: #475569;
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.amount-tag {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* 1. SVG Line Chart Styling */
+.chart-container {
+  width: 100%;
+  height: 240px;
+  position: relative;
+}
+
+.grid-line {
+  stroke: #f1f5f9;
+  stroke-width: 1px;
+  stroke-dasharray: 4 4;
+}
+
+.chart-point {
+  fill: #6366f1;
+  stroke: white;
+  stroke-width: 2px;
+}
+
+.chart-point-pulse {
+  fill: #6366f1;
+  opacity: 0.15;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.chart-point-pulse:hover {
+  transform: scale(1.5);
+  opacity: 0.3;
+}
+
+.chart-value-label {
+  font-size: 10px;
+  font-weight: 700;
+  fill: #6366f1;
+}
+
+.chart-axis-label {
+  font-size: 11px;
+  font-weight: 600;
+  fill: #94a3b8;
+}
+
+/* 2. Plan Share distribution styling */
+.dist-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.segmented-bar {
+  height: 12px;
+  background: #f1f5f9;
+  border-radius: 100px;
+  display: flex;
+  overflow: hidden;
+}
+
+.bar-segment {
+  height: 100%;
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bar-segment.free { background: #94a3b8; }
+.bar-segment.pro { background: #6366f1; }
+.bar-segment.enterprise { background: #10b981; }
+
+.tier-legend-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.legend-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+
+.legend-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.indicator-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.free-dot { background: #94a3b8; }
+.pro-dot { background: #6366f1; }
+.enterprise-dot { background: #10b981; }
+
+.tier-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #475569;
+}
+
+.legend-metrics {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.percentage {
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* 3. Invoices status vertical bar chart styling */
+.invoice-bar-charts {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  height: 200px;
+  padding-top: 10px;
+}
+
+.bar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 60px;
+}
+
+.bar-fill-track {
+  height: 120px;
+  width: 16px;
+  background: #f1f5f9;
+  border-radius: 100px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.bar-fill {
+  width: 100%;
+  border-radius: 100px;
+  transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.paid-fill { background: linear-gradient(180deg, #34d399 0%, #10b981 100%); }
+.pending-fill { background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%); }
+.overdue-fill { background: linear-gradient(180deg, #f87171 0%, #ef4444 100%); }
+
+.bar-amount {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.bar-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 0.5px;
+}
+
+.state-message {
+  padding: 32px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.state-message.error {
+  color: var(--danger);
+  background: #fee2e2;
+  border-radius: 8px;
+}
